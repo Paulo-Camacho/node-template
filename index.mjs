@@ -67,6 +67,15 @@ app.get("/home", ensureAdmin, async (req, res) => {
   res.render("home.ejs", { rows });
 });
 
+// LOGOUT ROUTE
+app.get("/logout", (req, res) => {
+  req.session.destroy(() => {
+    res.redirect("/login");
+  });
+});
+
+
+
 // SEARCH ROUTES
 app.get("/searchByKeyword", async (req, res) => {
   const keyword = req.query.keyword || "";
