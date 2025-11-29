@@ -216,8 +216,15 @@ app.post("/deleteQuote", ensureAdmin, async (req, res) => {
 });
 
 
-// START SERVER
-let open = 3000;
-app.listen(3000, () => {
-  console.log(`The server is running on localhost:${open}`);
+// // START SERVER
+// let open = 3000;
+// app.listen(3000, () => {
+//   console.log(`The server is running on localhost:${open}`);
+// });
+
+// RENDER 
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
+
