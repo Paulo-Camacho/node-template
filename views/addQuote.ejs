@@ -1,0 +1,115 @@
+<head>
+  <%- include("partials/head.ejs") %>
+  <title>Add Quote</title>
+</head>
+
+<body class="text-center bg-light">
+
+  <%- include("partials/nav.ejs") %>
+
+  <div class="container mt-5">
+
+    <h1 class="bg-primary text-white p-4 rounded">Add / Remove Quote</h1>
+
+    <% if (typeof message !== "undefined") { %>
+      <h1 class="text-success fw-bold mt-3"><%= message %></h1>
+    <% } %>
+
+    <div class="p-4 bg-white border rounded shadow-sm mt-4" style="max-width: 800px; margin: 0 auto;">
+
+      <h3 class="mb-3">Add New Quote</h3>
+
+      <form id="main" action="/addQuote" method="POST" class="text-start">
+
+        <!-- Category dropdown from DB -->
+        <label class="fw-bold">Category:</label>
+        <select name="category" class="form-select mb-3">
+          <% categories.forEach(cat => { %>
+            <option value="<%= cat.category %>">
+              <%= cat.category %>
+            </option>
+          <% }) %>
+        </select>
+
+        <!-- Quote text -->
+        <label class="fw-bold">Quote:</label>
+        <textarea id="quoteValue" name="quote" rows="3" class="form-control mb-3" required></textarea>
+
+        <!-- Author dropdown -->
+        <label class="fw-bold">Author:</label>
+        <select name="authorId" class="form-select mb-3" required>
+          <% rows.forEach(author => { %>
+            <option value="<%= author.authorId %>">
+              <%= author.firstName %> <%= author.lastName %>
+            </option>
+          <% }) %>
+        </select>
+
+        <!-- Likes -->
+        <label class="fw-bold">Likes:</label>
+        <input type="number" name="likes" value="0" min="0" class="form-control mb-3">
+
+        <!-- Submit -->
+        <button class="btn btn-success w-100 mt-3">Add Quote</button>
+
+      </form>
+
+      <p id="warningMessage" class="text-danger mt-3"></p>
+    </div>
+
+
+
+    <!-- DELETE QUOTE SECTION -->
+    <div class="p-4 bg-white border rounded shadow-sm mt-5" style="max-width: 800px; margin: 0 auto;">
+
+      <h3 class="mb-3 text-danger">Delete Existing Quote</h3>
+
+      <% if (quotes.length > 0) { %>
+
+        <form action="/deleteQuote" method="POST" class="text-start">
+
+          <label class="fw-bold">Select Quote:</label>
+          <select name="quoteId" class="form-select mb-3" required>
+
+            <% quotes.forEach(q => { %>
+              <option value="<%= q.quoteId %>">
+                "<%= q.quote %>" — <%= q.firstName %> <%= q.lastName %>
+              </option>
+            <% }) %>
+
+          </select>
+
+          <button class="btn btn-danger w-100">Delete Quote</button>
+
+        </form>
+
+      <% } else { %>
+
+        <p class="text-muted">No quotes available to delete.</p>
+
+      <% } %>
+
+    </div>
+
+  </div>
+
+  <%- include("partials/footer.ejs") %>
+
+  <script>
+    const form = document.querySelector("#main");
+    const message = document.querySelector("#warningMessage");
+
+    form.addEventListener("submit", validateForm);
+
+    function validateForm(event) {
+      const quoteText = document.querySelector("#quoteValue").value.trim();
+
+      if (quoteText.length < 5) {
+        event.preventDefault();
+        message.textContent = "MAKE SURE QUOTE CONTAINS AT LEAST 5 CHARS!";
+      }
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,94 @@
+<head>
+  <%- include("partials/head.ejs") %>
+  <title>Add Author</title>
+</head>
+
+<%- include("partials/nav.ejs") %>
+
+<body class="text-center bg-light">
+
+  <div class="container mt-5">
+
+    <h1 class="bg-primary text-white p-4 rounded">Add / Remove Author</h1>
+
+    <% if (typeof message !== "undefined") { %>
+      <h1 class="text-success fw-bold mt-3"><%= message %></h1>
+    <% } %>
+
+    <!-- Add Author -->
+    <div class="p-4 bg-white border rounded shadow-sm mt-4" style="max-width: 700px; margin: 0 auto;">
+
+      <h3 class="mb-3">Add New Author</h3>
+
+      <form action="/addAuthor" method="POST" class="text-start">
+
+        <!-- First Name -->
+        <label class="fw-bold">First Name:</label>
+        <input type="text" name="fn" class="form-control mb-3" required>
+
+        <!-- Last Name -->
+        <label class="fw-bold">Last Name:</label>
+        <input type="text" name="ln" class="form-control mb-3" required>
+
+        <!-- Sex -->
+        <label class="fw-bold">Sex:</label><br>
+        <div class="form-check form-check-inline">
+          <input type="radio" name="sex" value="Female" class="form-check-input" required>
+          <label class="form-check-label">Female</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input type="radio" name="sex" value="Male" class="form-check-input">
+          <label class="form-check-label">Male</label>
+        </div>
+        <br><br>
+
+        <!-- DOB -->
+        <label class="fw-bold">Date of Birth:</label>
+        <input type="date" name="dob" class="form-control mb-3" required>
+
+        <!-- DOD -->
+        <label class="fw-bold">Date of Death:</label>
+        <input type="date" name="dod" class="form-control mb-3">
+
+        <!-- Biography -->
+        <label class="fw-bold">Biography:</label>
+        <textarea name="biography" rows="4" class="form-control mb-3"></textarea>
+
+        <!-- Picture URL -->
+        <label class="fw-bold">Picture URL:</label>
+        <textarea name="picURL" rows="2" class="form-control mb-3"></textarea>
+
+        <button class="btn btn-success w-100 mt-3">Add Author</button>
+      </form>
+    </div>
+
+    <!-- Delete Author Section -->
+    <div class="p-4 bg-white border rounded shadow-sm mt-5" style="max-width: 700px; margin: 0 auto;">
+
+      <h3 class="mb-3 text-danger">Delete Existing Author</h3>
+
+      <% if (typeof authors !== "undefined") { %>
+        <form action="/deleteAuthor" method="POST" class="text-start">
+
+          <label class="fw-bold">Select Author:</label>
+          <select name="authorId" class="form-select mb-3" required>
+            <% authors.forEach(a => { %>
+              <option value="<%= a.authorId %>">
+                <%= a.firstName %> <%= a.lastName %>
+              </option>
+            <% }) %>
+          </select>
+
+          <button class="btn btn-danger w-100">Delete Author</button>
+
+        </form>
+      <% } %>
+
+    </div>
+
+  </div>
+
+  <%- include("partials/footer.ejs") %>
+
+</body>
+</html>

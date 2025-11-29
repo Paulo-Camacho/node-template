@@ -1,0 +1,68 @@
+<head>
+  <%- include("partials/head.ejs") %>
+  <title>Login</title>
+</head>
+
+<%- include("partials/nav.ejs") %>
+
+<body class="text-center bg-light">
+
+  <div class="container mt-5">
+
+    <h1 class="bg-primary text-white p-4 rounded">Administrator Login</h1>
+
+    <div class="mt-4 p-4 bg-white border rounded shadow-sm" style="max-width: 500px; margin: 0 auto;">
+
+      <% if (typeof loginError !== "undefined") { %>
+        <p class="text-danger fw-bold">Invalid username or password.</p>
+      <% } %>
+
+      <form method="POST" action="/loginProcess">
+
+        <div class="mb-3 text-start">
+          <label class="form-label fw-bold">Username:</label>
+          <div class="input-group">
+            <input type="text" name="username" class="form-control" required>
+            <span class="input-group-text">
+              <i class="bi bi-person"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="mb-3 text-start">
+          <label class="form-label fw-bold">Password:</label>
+          <div class="input-group">
+            <input type="password" id="pwd" name="password" class="form-control" required>
+            <span class="input-group-text" id="eyeIcon" style="cursor: pointer;">
+              <i class="bi bi-eye"></i>
+            </span>
+          </div>
+        </div>
+
+        <button class="btn btn-success w-100 mt-3">Login</button>
+
+      </form>
+
+    </div>
+
+  </div>
+
+  <%- include("partials/footer.ejs") %>
+
+  <!-- DR LARA -->
+  <script>
+    const eyeIcon = document.querySelector("#eyeIcon");
+    const pwd = document.querySelector("#pwd");
+
+    eyeIcon.addEventListener("click", () => {
+      const isHidden = pwd.type === "password";
+      pwd.type = isHidden ? "text" : "password";
+
+      eyeIcon.innerHTML = isHidden 
+        ? '<i class="bi bi-eye-slash"></i>' 
+        : '<i class="bi bi-eye"></i>';
+    });
+  </script>
+
+</body>
+</html>

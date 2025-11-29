@@ -1,0 +1,76 @@
+<!-- THIS IS TO SHOW THE RESULTS FROM THE HOME.EJS, COMPLETELY NEW WEBPAGE IS BEING RENDERED -->
+<head>
+  <%- include("partials/head.ejs") %>
+  <title>Results</title>
+</head>
+<body class="text-center bg-light">
+  <%- include("partials/nav.ejs") %>
+  <div class="container mt-5">
+    <h1 class="bg-dark text-white p-3 rounded">ALL QUOTES</h1>
+    <h2 class="mt-4">Quote Results</h2>
+
+    <% if (typeof keyword !== 'undefined' && keyword) { %>
+      <p>Showing results for keyword: "<strong><%= keyword %></strong>"</p>
+    <% } %>
+
+    <% if (typeof authorId !== 'undefined' && authorId) { %>
+      <p>Showing quotes by author ID: <%= authorId %></p>
+    <% } %>
+
+    <% if (rows && rows.length > 0) { %>
+      <% rows.forEach(q => { %>
+        <div class="card mb-3 p-3 shadow-sm">
+          <blockquote class="blockquote">
+            <p><%= q.quote %></p>
+            <footer class="blockquote-footer">
+              <a href="#" class="author-link" data-author-id="<%= q.authorId %>">
+                <%= q.firstName %> <%= q.lastName %>
+              </a>
+            </footer>
+          </blockquote>
+        </div>
+      <% }) %>
+    <% } else { %>
+      <p>No quotes found.</p>
+    <% } %>
+
+    <!-- Author Info Display -->
+    <div id="authorInfo" class="mt-5">
+      <h3 id="authorName"></h3>
+      <img id="authorImage" class="img-fluid rounded" alt="Author portrait">
+    </div>
+  </div>
+
+  <!-- JavaScript for author info -->
+  <script>
+    function $(selector) {
+      return document.querySelector(selector);
+    }
+
+    function $$(selector) {
+      return document.querySelectorAll(selector);
+    }
+
+    // Attach event listeners to all author links
+    document.addEventListener("DOMContentLoaded", () => {
+      $$(".author-link").forEach(link => {
+        link.addEventListener("click", async (ev) => {
+          ev.preventDefault();
+          const authorId = ev.target.getAttribute("data-author-id");
+          const url = "/api/authors/" + authorId;
+          try {
+            const response = await fetch(url);
+            const data = await response.json();
+            $("#authorName").textContent = data[0].firstName + " " + data[0].lastName;
+            $("#authorImage").src = data[0].portrait;
+          } catch (err) {
+            console.error("Failed to fetch author info:", err);
+          }
+        });
+      });
+    });
+  </script>
+
+  <%- include("partials/footer.ejs") %>
+</body>
+</html>

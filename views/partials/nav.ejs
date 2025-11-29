@@ -1,0 +1,53 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+  <div class="container-fluid">
+
+    <a class="navbar-brand" href="/">HOME!</a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+            data-bs-target="#navbarNav" aria-controls="navbarNav" 
+            aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+
+        <li class="nav-item">
+          <a class="nav-link" href="/addAuthor">Add/Remove:Author</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/addQuote">Add/Remove:Quote</a>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" 
+             data-bs-toggle="dropdown">
+            Search
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/searchByKeyword">Keyword Search</a></li>
+            <li><a class="dropdown-item" href="/searchByAuthor">Search by Author</a></li>
+          </ul>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav">
+
+        <% if (session && session.authenticated) { %>
+          <li class="nav-item">
+            <a class="nav-link text-warning" href="#">Logged in as Admin</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-danger" href="/logout">Logout</a>
+          </li>
+        <% } else { %>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="/login">Login</a>
+          </li>
+        <% } %>
+
+      </ul>
+    </div>
+  </div>
+</nav>
